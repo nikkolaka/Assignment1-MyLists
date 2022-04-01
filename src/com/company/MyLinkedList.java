@@ -2,11 +2,11 @@ package com.company;
 
 import java.lang.reflect.Type;
 
-public class MyLinkedList {
+public class MyLinkedList <Type>{
 
-    Node first;
-    Node current;
-    Node previous;
+    Node first = null;
+    Node current = null;
+    Node previous = null;
     int size;
 
 
@@ -15,8 +15,8 @@ public class MyLinkedList {
         Node next;
 
         Node(Type data){
-            item = data;
-            next = null;
+            this.item = data;
+            this.next = first;
             size = size+1;
         }
         public String toString(){
@@ -24,36 +24,68 @@ public class MyLinkedList {
         }
 
     }
-    public static void addBefore(Type item){
-
+    public void addBefore(Type item){
+        Node newNode = new Node(item);
+        if(current == null) {
+            current = newNode;
+            first = current;
+        } else {
+            previous = newNode;
+            newNode.next = current;
+        }
     }
-    public static void addAfter(Type item){
-
+    public void addAfter(Type item){
+        if(current != null){
+            Node newNode = new Node(item);
+            newNode.next = current.next.next;
+            current.next = newNode;
+        }
     }
-    public static Type current(){
-
+    public Type remove(){
+        if(current != null){
+            Type data = current.item;
+            previous.next = current.next;
+            current = previous.next;
+            return data;
+        }
+        return null;
     }
-    public static Type first(){
-
+    public Type current(){
+        if(current == null){
+            return null;
+        } else{
+            return current.item;
+        }
     }
-    public static Type next(){
-
+    public Type first(){
+        if(first == null){
+            return null;
+        } else{
+            current = first;
+            return current.item;
+        }
     }
-    public static Type remove(){
-
+    public Type next(){
+        if(current == null){
+            return null;
+        } else {
+            current = current.next;
+            return current.item;
+        }
     }
-    public static boolean contains(Type item){
 
+    public boolean contains(Type item){
+        return current.item == item;
     }
-    public static int size(){
-
+    public int size(){
+        return size;
     }
-    public static boolean isEmpty(){
-
+    public boolean isEmpty(){
+        return size == 0;
     }
     public String toString(){
         String string = "["+current.toString();
-        for(int i=0; i<size-1;i++){
+        for(int i=0; i<size-2;i++){
             next();
             string = string+","+current.toString();
         }
@@ -61,7 +93,4 @@ public class MyLinkedList {
         return string;
     }
 
-
-
-}
 }

@@ -5,9 +5,9 @@ public class Main <Type>{
     public static void main(String[] args) {
 	MyLinkedList<Integer> list = new MyLinkedList<>();
     list.addBefore(1);
-    list.addBefore(2);
-    list.addBefore(3);
-    list.addBefore(4);
+    list.addAfter(2);
+    list.addAfter(3);
+    list.addAfter(4);
     System.out.println(list.toString());
 
     }

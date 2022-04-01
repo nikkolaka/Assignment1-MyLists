@@ -16,7 +16,7 @@ public class MyLinkedList <Type>{
 
         Node(Type data){
             this.item = data;
-            this.next = first;
+            this.next = null;
             size = size+1;
         }
         public String toString(){
@@ -37,8 +37,13 @@ public class MyLinkedList <Type>{
     public void addAfter(Type item){
         if(current != null){
             Node newNode = new Node(item);
-            newNode.next = current.next.next;
-            current.next = newNode;
+            if(current.next == null){
+                current.next = newNode;
+            } else{
+                newNode.next = current.next.next;
+                current.next = newNode;
+            }
+
         }
     }
     public Type remove(){
@@ -66,11 +71,11 @@ public class MyLinkedList <Type>{
         }
     }
     public Type next(){
-        if(current == null){
-            return null;
-        } else {
+        if(current.next != null){
             current = current.next;
             return current.item;
+        } else {
+            return null;
         }
     }
 
@@ -84,10 +89,13 @@ public class MyLinkedList <Type>{
         return size == 0;
     }
     public String toString(){
-        String string = "["+current.toString();
-        for(int i=0; i<size-2;i++){
-            next();
-            string = string+","+current.toString();
+        String string = "["+first.toString();
+        current = first;
+        for(int i=0; i<size-1;i++){
+            if(current != null){
+                next();
+                string = string+","+current.toString();
+            }
         }
         string = string+"]";
         return string;

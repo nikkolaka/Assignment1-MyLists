@@ -1,14 +1,16 @@
 package com.company;
 
-public class Main <Type>{
+public class Main{
 
     public static void main(String[] args) {
-	MyLinkedList<Integer> list = new MyLinkedList<>();
-    list.addBefore(1);
-    list.addAfter(2);
-    list.addAfter(3);
-    list.addAfter(4);
+	MyArrayList<Integer> list = new MyArrayList<>();
+    for(int i = 0; i<40;i++){
+        list.insert(i+1,i);
+    }
+    list.remove(7);
+    list.insert(100,7);
     System.out.println(list.toString());
+
 
     }
 }

@@ -1,6 +1,7 @@
 package com.company;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 
 public class MyLinkedList <Type>{
 
@@ -132,4 +133,7 @@ public class MyLinkedList <Type>{
         string = string+"]";
         return string;
     }
+
+
+
 }

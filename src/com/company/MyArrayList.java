@@ -1,8 +1,9 @@
 package com.company;
 
-public class MyArrayList <Type>{
+public class MyArrayList <Type extends Comparable<Type>>{
     private int capacity = 16;
     private Type[] list = (Type[]) new Object[capacity];
+    int comparisons = 0;
 
     private int size = 0;
 
@@ -14,8 +15,8 @@ public class MyArrayList <Type>{
             if(size>capacity){
                 resize();
             }
-            for(int i = size-1 - index; i>0; i--){
-                list[i] = list[i+1];
+            for(int i = size-1; i>index; i--){
+                list[i] = list[i-1];
             }
             list[index] = item;
         }
@@ -40,6 +41,7 @@ public class MyArrayList <Type>{
             return null;
         }
     }
+    //Upgrade to use comparable
     public boolean contains(Type item){
         for(int i = 0; i<size;i++){
             if(list[i] == item){
@@ -48,6 +50,7 @@ public class MyArrayList <Type>{
         }
         return false;
     }
+    //Upgrade to use comparable
     public int indexOf(Type item){
         for(int i = 0; i<size;i++){
             if(list[i] == item){
@@ -93,4 +96,9 @@ public class MyArrayList <Type>{
         }
         list = temp;
     }
+    public void sort(){
+
+        //Bubble Sort
+    }
+
 }

@@ -14,8 +14,8 @@ public class MyArrayList <Type>{
             if(size>capacity){
                 resize();
             }
-            for(int i = size-1; i>index; i--){
-                list[i] = list[i-1];
+            for(int i = size-1 - index; i>0; i--){
+                list[i] = list[i+1];
             }
             list[index] = item;
         }

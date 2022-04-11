@@ -2,15 +2,15 @@ package com.company;
 
 public class MyArrayList <Type extends Comparable<Type>>{
     private int capacity = 16;
-    private Type[] list = (Type[]) new Object[capacity];
-    int comparisons = 0;
+    private Type[] list = (Type[]) new Comparable[capacity];
+    public long comparisons = 0;
 
     private int size = 0;
 
 
 
     public void insert(Type item, int index){
-        if(index<=size && index>=0){
+        if(index<=capacity && index>=0){
             size++;
             if(size>capacity){
                 resize();
@@ -43,17 +43,21 @@ public class MyArrayList <Type extends Comparable<Type>>{
     }
     //Upgrade to use comparable
     public boolean contains(Type item){
+        comparisons++;
         for(int i = 0; i<size;i++){
-            if(list[i] == item){
+            comparisons++;
+            if(item.compareTo(list[i]) == 0){
+
                 return true;
             }
         }
+
         return false;
     }
     //Upgrade to use comparable
     public int indexOf(Type item){
         for(int i = 0; i<size;i++){
-            if(list[i] == item){
+            if(item.compareTo(list[i]) == 0){
                 return i;
             }
         }
@@ -89,16 +93,31 @@ public class MyArrayList <Type extends Comparable<Type>>{
     }
     private void resize(){
         capacity = capacity*2;
-        Type[] temp = (Type[]) new Object[capacity];
+        Type[] temp = (Type[]) new Comparable[capacity];
 
         for(int i=0; i<size-1;i++){
             temp[i] = list[i];
         }
         list = temp;
     }
+
     public void sort(){
 
-        //Bubble Sort
+        Type temp;
+
+        for(int i = 0; i < size ; i++){
+
+            for(int j = 0; j < size - i -1; j++){
+
+                if(get(j).compareTo(get(j+1)) > 0){
+                    temp = get(j);
+                    set(j,get(j+1));
+                    set(j+1, temp);
+                }
+
+            }
+        }
+
     }
 
 }

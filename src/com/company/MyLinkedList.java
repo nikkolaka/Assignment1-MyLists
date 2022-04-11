@@ -3,12 +3,13 @@ package com.company;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-public class MyLinkedList <Type>{
+public class MyLinkedList <Type extends Comparable<Type>>{
 
     private Node first = null;
     private Node current = null;
     private Node previous = null;
-    private int size;
+    private int size = 0;
+    public long comparisons = 0;
 
     private class Node {
         Type item;
@@ -25,43 +26,27 @@ public class MyLinkedList <Type>{
     }
     public void addBefore(Type item){
         Node newNode = new Node(item);
-        if(current == null) {
-            if(previous == null){
-                previous = newNode;
-                first = previous;
-            } else {
-                previous.next = newNode;
-                newNode.next = current;
 
-                previous = newNode;
-            }
-            size += 1;
+        if(current == first){
+            first = newNode;
+            previous = first;
+            previous.next = current;
+        } else{
+            newNode.next = current;
+            previous.next = newNode;
+            previous = previous.next;
 
-        } else {
-            if(current == first){
-                newNode.next = current;
-                previous = newNode;
-                first = previous;
-                size += 1;
-            } else{
-                newNode.next = current;
-                previous.next = newNode;
-                previous = newNode;
-                size+= 1;
-            }
         }
+        size++;
     }
     public void addAfter(Type item){
         if(current != null){
             Node newNode = new Node(item);
-            if(current.next == null){
-                current.next = newNode;
-                size += 1;
-            } else{
+            if (current.next != null) {
                 newNode.next = current.next;
-                current.next = newNode;
-                size += 1;
             }
+            current.next = newNode;
+            size++;
 
         }
     }
@@ -70,11 +55,12 @@ public class MyLinkedList <Type>{
             Type data = current.item;
             if(current == first){
                 first = first.next;
-            } else if(current.next == null){
-                previous.next = null;
+                current = first;
             } else{
-                previous.next = current.next;
-                current = previous.next;
+                current = previous;
+                current.next = current.next.next;
+                current = current.next;
+
             }
 
             size --;
@@ -94,6 +80,7 @@ public class MyLinkedList <Type>{
             return null;
         } else{
             current = first;
+            previous = null;
             return current.item;
         }
     }
@@ -103,12 +90,23 @@ public class MyLinkedList <Type>{
             current = current.next;
             return current.item;
         } else {
+            previous = current;
+            current = null;
             return null;
         }
     }
 
     public boolean contains(Type item){
-        return current.item == item;
+        Node tempNode = first;
+        comparisons++;
+        while(tempNode != null){
+            comparisons++;
+            if(tempNode.item.compareTo(item) == 0){
+                return true;
+            }
+            tempNode = tempNode.next;
+        }
+        return false;
     }
     public int size(){
         return size;
@@ -116,22 +114,48 @@ public class MyLinkedList <Type>{
     public boolean isEmpty(){
         return size == 0;
     }
+    public void sort(){
+        if(first != null){
+            current = first;
+            Type temp;
+
+            for(int i = 0; i < size ; i++){
+                current = first;
+
+                for(int j = 0; j < size - i -1; j++){
+
+                    if(current.item.compareTo(current.next.item) > 0){
+                        temp = current.item;
+                        current.item = current.next.item;
+                        current.next.item = temp;
+
+                    }
+                    current = current.next;
+
+                }
+            }
+        }
+
+    }
     public String toString(){
         Node tempNode = first;
         if(tempNode == null){
             return "[]";
         }
-        String string = "["+tempNode.toString();
-
-        for(int i=0; i<size-1;i++){
-            if(tempNode.next != null){
-                tempNode = tempNode.next;
-                string = string+","+tempNode.toString();
-            }
+        StringBuilder string = new StringBuilder("[" + tempNode);
+        if(tempNode.next != null){
+            string.append(", ");
         }
-
-        string = string+"]";
-        return string;
+        tempNode = tempNode.next;
+        while(tempNode != null){
+            string.append(tempNode);
+            if (tempNode.next != null){
+                string.append(", ");
+            }
+            tempNode = tempNode.next;
+        }
+        string.append("]");
+        return string.toString();
     }
 
 
